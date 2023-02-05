@@ -12,4 +12,3 @@ class CreateTaskDTO(BaseModel):
         if not v.strip():
             raise ValueError('title must not be blank')
         return v
-    

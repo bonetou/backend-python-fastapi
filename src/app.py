@@ -3,10 +3,10 @@ from fastapi.exceptions import HTTPException
 from src.dtos import CreateTaskDTO
 from src.models import Task
 
-
 app = FastAPI()
 
 created_tasks = []
+
 
 @app.post("/tasks/")
 def create_task(create_task_dto: CreateTaskDTO) -> Task:
@@ -19,6 +19,7 @@ def create_task(create_task_dto: CreateTaskDTO) -> Task:
     )
     created_tasks.append(new_task)
     return new_task
+
 
 @app.get("/tasks/{task_id}")
 def get_task(task_id: int) -> Task:
