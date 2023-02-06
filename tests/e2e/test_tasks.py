@@ -1,11 +1,13 @@
 from src.dtos import CreateTaskDTO
 
+
 def create_task_dto_test():
     return CreateTaskDTO(
         title="Foo",
         description="Bar",
         tags=["tag1", "tag2"],
     )
+
 
 def test_should_create_task_correctly(test_client):
     create_task_dto = create_task_dto_test()
@@ -17,7 +19,8 @@ def test_should_create_task_correctly(test_client):
     assert created_task["title"] == create_task_dto.title
     assert created_task["description"] == create_task_dto.description
     assert created_task["tags"] == create_task_dto.tags
-    assert created_task["completed"] == False
+    assert created_task["completed"] is False
+
 
 def test_should_not_create_task_with_blank_title(test_client):
     create_task_dto = create_task_dto_test()
@@ -34,6 +37,7 @@ def test_should_not_create_task_with_blank_title(test_client):
         ]
     }
 
+
 def test_should_get_task_by_id_correctly(test_client):
     create_task_dto = create_task_dto_test()
     created_response = test_client.post("/tasks", json=create_task_dto.dict())
@@ -43,7 +47,8 @@ def test_should_get_task_by_id_correctly(test_client):
     assert response.status_code == 200
     assert response.json() == created_task
 
-def test_should_return_not_found_error_when_trying_to_get_task_that_does_not_exist(test_client):
+
+def test_should_return_not_found_error_if_task_does_not_exist(test_client):
     response = test_client.get("/tasks/3")
     assert response.status_code == 404
     assert response.json() == {"detail": "Not Found"}
