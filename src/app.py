@@ -1,29 +1,16 @@
 from fastapi import FastAPI
 from fastapi.exceptions import HTTPException
-from src.dtos import CreateTaskDTO
-from src.models import Task
+from src.dtos import CreateUserDto
+
 
 app = FastAPI()
 
-created_tasks = []
+users = []
 
 
-@app.post("/tasks/")
-def create_task(create_task_dto: CreateTaskDTO) -> Task:
-    new_task = Task(
-        id=len(created_tasks) + 1,
-        title=create_task_dto.title,
-        description=create_task_dto.description,
-        tags=create_task_dto.tags,
-        completed=False,
-    )
-    created_tasks.append(new_task)
-    return new_task
-
-
-@app.get("/tasks/{task_id}")
-def get_task(task_id: int) -> Task:
-    try:
-        return created_tasks[task_id - 1]
-    except IndexError:
-        raise HTTPException(status_code=404, detail="Not Found")
+@app.post("/users")
+def create_user(create_user_dto: CreateUserDto):
+    if create_user_dto.username in users:
+        raise HTTPException(status_code=400, detail="Username already exists")
+    users.append(create_user_dto.username)
+    return {"message": "User created successfully"}

@@ -1,8 +1,8 @@
-from src.dtos import CreateTaskDTO
+from src.dtos import CreateTaskDto
 
 
 def create_task_dto_test():
-    return CreateTaskDTO(
+    return CreateTaskDto(
         title="Foo",
         description="Bar",
         tags=["tag1", "tag2"],

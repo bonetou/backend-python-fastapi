@@ -1,12 +1,13 @@
-from pydantic import BaseModel
-from datetime import datetime
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.ext.declarative import declarative_base
 
 
-class Task(BaseModel):
-    id: str
-    title: str
-    description: str | None = None
-    completed: bool = False
-    created_at: datetime = datetime.now()
-    updated_at: datetime = datetime.now()
-    tags: list[str] = []
+Base = declarative_base()
+
+
+class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String, unique=True)
+    password = Column(String)
